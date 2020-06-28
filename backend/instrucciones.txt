@@ -1,0 +1,11 @@
+1) Instalar nodejs lts
+link: https://nodejs.org/es/
+
+2) Cargar el script nidoagilas.sql presente en la carpeta sql.
+
+3) Configurar las credenciales de la base de datos en el archivo database_config.json, hay que usar la base de
+datos nidoagilas creada en el script, y un usuario y host, que puedan acceder a ella.
+
+4) Abrir el archivo start-server.bat, en caso de querer reiniciar el server, escribir en 
+la ventana de comandos rs, para cerrar el server es necesario cerrar la ventana de comandos, 
+o apretar control+c.
