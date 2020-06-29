@@ -10,8 +10,14 @@ $(document).ready(function () {
 
         var option = '';
         for(var i=0;i<listaAlumnos.length;i++){
-            option+='<option value="'+listaAlumnos[i].id_alumno+'">'+listaAlumnos[i].nombre+
-                ' '+listaAlumnos[i].apellido+'</option>'
+
+            var nombre = listaAlumnos[i].nombre.substr(0,1).toUpperCase()+
+                listaAlumnos[i].nombre.substr(1,listaAlumnos[i].nombre.length-1);
+            var apellido = listaAlumnos[i].apellido.substr(0,1).toUpperCase()+
+                listaAlumnos[i].apellido.substr(1,listaAlumnos[i].apellido.length-1);
+
+            option+='<option value="'+listaAlumnos[i].id_alumno+'">'+nombre+
+                ' '+apellido+'</option>'
         }
 
         document.getElementById('listaAlumnos').innerHTML= option;
@@ -22,6 +28,37 @@ $(document).ready(function () {
     $('#listaAlumnos').change(function (id) {
         var idAlumno=id.target.value;
         llenarTabla(idAlumno);
+    });
+
+    $('#descargar').click(function () {
+        var doc = new jsPDF('p', 'pt', 'letter');
+
+        /*doc.addHTML($('#tablaNotas')[0],function () {
+            doc.save('informe-notas.pdf');
+        });*/
+
+        var elementHandlers = {
+            '#bypassme':function (element,renderer) {
+                return true;
+            }
+        }
+
+        var margins = {
+            top: 80,
+            bottom: 60,
+            left: 80,
+            width: 700
+        };
+
+        var element = $('#tablaNotas')[0].innerHTML;
+        element='<h1 style="margin-bottom: 2em">'+$("#listaAlumnos").find(":selected").text()+'</h1>'+element;
+
+        doc.fromHTML(element,margins.left,margins.top,{
+            'width':margins.width,
+            'elementHandlers':elementHandlers
+        });
+
+        doc.save('informe-notas.pdf');
     });
 
     function llenarTabla(idAlumno) {
